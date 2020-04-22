@@ -40,7 +40,7 @@ class Loan(models.Model):
 
 
 class Pyments(models.Model):
-	loan=models.ForeignKey(Loan, on_delete=models.CASCADE,related_name='loan')
+	loan=models.ForeignKey(Loan, on_delete=models.CASCADE,related_name='pyments')
 	pyment=models.IntegerField()
 	date=models.DateField()
 
@@ -72,6 +72,10 @@ def get_paid_amount_sabtract(instance, *args, **kwargs):
 @receiver(pre_delete, sender=Pyments)
 def get_pyments_status(instance, *args, **kwargs):
 	loan_obj=instance.loan
-	if loan_obj.paid_amount == loan_obj.totla_loan_amount:
-		loan_obj.status=True
-		loan_obj.save()
+	loan_obj=instance.loan
+
+	print("x",loan_obj)
+	if instance.loan.paid_amount == instance.loan.totla_loan_amount:
+		print("x",loan_obj)
+		instance.loan.status=True
+		instance.loan.save()

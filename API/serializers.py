@@ -92,10 +92,24 @@ class HoldAmountListSerializer(serializers.ModelSerializer):
 
 # --------- Loan Serializer -------------#
 
+
+
 class LoanListSerializer(serializers.ModelSerializer):
+	status=serializers.SerializerMethodField()
+	
 	class Meta:
 		model = Loan
-		fields = "__all__"
+		fields = ['id','participant','loan_amount','hold_amount','profit_amount','date',"status",'totla_loan_amount','paid_amount']
+
+	def get_status(self,obj):
+		totla_loan_amount=obj.totla_loan_amount
+		paid_amount=obj.pyments.all().aggregate(Sum('pyment'))['pyment__sum']
+		if totla_loan_amount==paid_amount:
+			return "Settled"
+		elif totla_loan_amount<paid_amount:
+			return "error paid_amount > totla_loan_amount "
+		else:
+			return "Active"
 
 
 class LoanDetailSerializer(serializers.ModelSerializer):
