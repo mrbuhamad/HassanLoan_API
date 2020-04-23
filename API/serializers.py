@@ -57,6 +57,8 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 
 	def get_part_profit_amount(self,obj):
 		part_profit_amount=obj.loan.all().aggregate(Sum('profit_amount'))['profit_amount__sum']
+		if part_profit_amount ==None
+			return 0
 		return part_profit_amount
 
 	def get_settled_loans(self,obj):
