@@ -106,10 +106,13 @@ class LoanListSerializer(serializers.ModelSerializer):
 	def get_status(self,obj):
 		totla_loan_amount=obj.totla_loan_amount
 		paid_amount=obj.pyments.all().aggregate(Sum('pyment'))['pyment__sum']
-		if totla_loan_amount==paid_amount:
-			return "Settled"
-		elif totla_loan_amount<paid_amount:
-			return "error paid_amount > totla_loan_amount "
+		if paid_amount!=None:
+			if totla_loan_amount==paid_amount:
+				return "Settled"
+			elif totla_loan_amount<paid_amount:
+				return "error paid_amount > totla_loan_amount "
+			else:
+				return "Active"
 		else:
 			return "Active"
 
