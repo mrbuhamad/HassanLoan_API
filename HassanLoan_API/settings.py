@@ -29,7 +29,7 @@ SECRET_KEY = '+_aa7sg9(l2+=m*6djj156p=)+=_=lxv@zdz86ui@%&39x1md!'
 # ------------------------------------------------------------------
 DEBUG = False
 
-ALLOWED_HOSTS = ['64.225.110.47']
+ALLOWED_HOSTS = ['64.225.110.47', 'www.hassan-loandomain.com','hassan-loandomain.com']
 # ------------------------------------------------------------------
 # DEBUG = True
 
