@@ -47,7 +47,7 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 		fields = ['id','name','part_hold_amount','part_profit_amount','settled_loans','active_loans']
 
 	def get_part_hold_amount(self,obj):
-		hold_amount=obj.loan.all().aggregate(Sum('hold_amount'))['hold_amount__sum']
+		hold_amount=obj.loan.all().aggregate(Sum('hold'))['hold_amount__sum']
 		part_hold_amount=obj.hold_amount.all().aggregate(Sum('part_hold_amount'))['part_hold_amount__sum']
 		if hold_amount== None:
 			hold_amount=0
