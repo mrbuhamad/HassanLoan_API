@@ -70,11 +70,11 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 		return loans
 
 
-# --------- Hold_amount Serializer -------------#
+# --------- Hold Serializer -------------#
 
 class HoldAmountSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Hold_amount
+		model = Hold
 		fields = "__all__"
 
 class HoldAmountListSerializer(serializers.ModelSerializer):
@@ -85,7 +85,7 @@ class HoldAmountListSerializer(serializers.ModelSerializer):
 		fields = ['id','name','hold_amounts']
 
 	def get_hold_amounts(self,obj):
-		hold_amount=Hold_amount.objects.filter(participant=obj.id)
+		hold_amount=Hold.objects.filter(participant=obj.id)
 		return HoldAmountSerializer(hold_amount, many=True).data
 
 

@@ -57,7 +57,7 @@ class ParticipantDeleteView(DestroyAPIView):
 	lookup_url_kwarg = 'part_id'
 
 
-# --------- Hold_amount views -------------#
+# --------- Hold views -------------#
 
 
 class HoldAmountListView(RetrieveAPIView):
@@ -73,7 +73,7 @@ class HoldAmountCreateView(CreateAPIView):
 
 
 class HoldAmountUpdateView(RetrieveUpdateAPIView):
-	queryset = Hold_amount.objects.all()
+	queryset = Hold.objects.all()
 	serializer_class = HoldAmountSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'hold_id'
@@ -81,7 +81,7 @@ class HoldAmountUpdateView(RetrieveUpdateAPIView):
 
 
 class HoldAmountDeleteView(DestroyAPIView):
-	queryset = Hold_amount.objects.all()
+	queryset = Hold.objects.all()
 	serializer_class = HoldAmountSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'hold_id'
