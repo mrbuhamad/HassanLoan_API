@@ -60,9 +60,8 @@ def get_total_amount(instance, *args, **kwargs):
 #-------------- singnel to popelate Loan.paid_amount (add when created) ------------- #
 @receiver(pre_save, sender=Pyments)
 def get_paid_amount_Add(instance, *args, **kwargs):
-	if created:
-		instance.loan.paid_amount += instance.pyment
-		instance.loan.save()
+	instance.loan.paid_amount += instance.pyment
+	instance.loan.save()
 
 #-------------- singnel to popelate Loan.paid_amount (subtract when deleted) -------- #
 @receiver(pre_delete, sender=Pyments)
