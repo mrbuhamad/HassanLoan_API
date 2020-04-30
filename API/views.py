@@ -121,7 +121,7 @@ class LoanDeleteView(DestroyAPIView):
 
 
 class PymentView(RetrieveAPIView):
-	queryset = Participants.objects.all()
+	queryset = Loan.objects.all()
 	serializer_class = PymentsDetailSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'loan_id'
