@@ -58,10 +58,11 @@ def get_total_amount(instance, *args, **kwargs):
 
 
 #-------------- singnel to popelate Loan.paid_amount (add when created) ------------- #
-@receiver(pre_save, sender=Pyments)
-def get_paid_amount_Add(instance, *args, **kwargs):
-	instance.loan.paid_amount += instance.pyment
-	instance.loan.save()
+@receiver(post_save, sender=Pyments)
+def get_paid_amount_Add(instance,created, *args, **kwargs):
+	if created:
+		instance.loan.paid_amount += instance.pyment
+		instance.loan.save()
 
 #-------------- singnel to popelate Loan.paid_amount (subtract when deleted) -------- #
 @receiver(pre_delete, sender=Pyments)
@@ -81,10 +82,11 @@ def get_pyments_status(instance, *args, **kwargs):
 
 #-------------- singnel to popelate Hold.reasoning (subtract when deleted) -------- #
 @receiver(post_save, sender=Loan)
-def get_Hold_amount(instance, *args, **kwargs):
+def get_Hold_amount(instance,created, *args, **kwargs):
 	participant=instance.participant
 	loan=instance
 	part_hold_amount=instance.hold_amount
 	date=instance.date
 	reasoning="throu loan"
-	Hold.objects.create(participant=participant,loan=loan,part_hold_amount=part_hold_amount,date=date,reasoning=reasoning)
+	if created:
+		Hold.objects.create(participant=participant,loan=loan,part_hold_amount=part_hold_amount,date=date,reasoning=reasoning)
