@@ -26,9 +26,19 @@ class Loan(models.Model):
 
 	#-----recived from get_paid_amount signal------#
 	status=models.BooleanField(default=False)
+
+	
+	## --  this added for debugging -- ##
+	try:
+		self.participant.name
+	except NameError:
+		part_name= "noname ??"
+	else:
+		part_name= self.participant.name
+		
 	
 	def __str__(self):
-		return f"{self.participant.name} - loan is :{self.id}"
+		return f"{self.part_name} - loan is :{self.id}"
 
 
 
