@@ -82,7 +82,7 @@ def get_paid_amount_sabtract(instance, *args, **kwargs):
 
 
 #-------------- singnel to popelate Loan.paid_amount (subtract when deleted) -------- #
-@receiver(pre_save, sender=Pyments)
+@receiver(post_save, sender=Pyments)
 def get_pyments_status(instance, *args, **kwargs):
 	loan_obj=instance.loan
 	if instance.loan.paid_amount == instance.loan.totla_loan_amount:
