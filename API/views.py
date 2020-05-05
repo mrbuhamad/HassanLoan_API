@@ -24,21 +24,13 @@ class UserCreateAPIView(CreateAPIView):
 
 
 class ParticipantsListView(ListAPIView):
-	queryset = Participants.objects.all()
+	queryset = Participants.objects.all().order_by('loan__status')
 	serializer_class = ParticipantsListSerializer
 
 
 
 class ParticipantCreateView(CreateAPIView):
 	serializer_class=ParticipantsSerializer
-
-
-
-# class ParticipantUpdateView(RetrieveAPIView):
-# 	queryset = Participants.objects.all()
-# 	serializer_class = ParticipantsSerializer
-# 	lookup_field = 'id'
-# 	lookup_url_kwarg = 'part_id'
 
 
 
