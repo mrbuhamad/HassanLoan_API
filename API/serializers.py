@@ -165,5 +165,5 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 		fields = ['id','participant','loan_amount','pyments']
 
 	def get_pyments(self,obj):
-		pyments=Pyments.objects.filter(loan=obj.id)
+		pyments=Pyments.objects.filter(loan=obj.id).order_by('date')
 		return PymentsListSerializer(pyments, many=True).data
