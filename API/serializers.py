@@ -73,8 +73,9 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 		for loan in loans_set:
 			totla_loan_amount=loan.totla_loan_amount
 			paid_amount=loan.pyments.all().aggregate(Sum('pyment'))['pyment__sum']
-			if totla_loan_amount<paid_amount:
-				error=True
+			if paid_amount!=None:
+				if totla_loan_amount<paid_amount:
+					error=True
 		return error
 			
 
