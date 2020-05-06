@@ -69,13 +69,14 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 
 	def get_error(self,obj):
 		loans_set=obj.loan.all()
+		error=False
 		for loan in loans_set:
 			totla_loan_amount=loan.totla_loan_amount
 			paid_amount=loan.pyments.all().aggregate(Sum('pyment'))['pyment__sum']
 			if totla_loan_amount<paid_amount:
-				return True
-			else:
-				return False
+				error=True
+		return error
+			
 
 
 # --------- Hold Serializer -------------#
