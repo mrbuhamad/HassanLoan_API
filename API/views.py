@@ -24,7 +24,7 @@ class UserCreateAPIView(CreateAPIView):
 
 
 class ParticipantsListView(ListAPIView):
-	queryset = Participants.objects.all().order_by('loan__status')
+	queryset = Participants.objects.all()
 	serializer_class = ParticipantsListSerializer
 
 
