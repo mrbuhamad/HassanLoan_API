@@ -40,11 +40,12 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 	part_profit_amount=serializers.SerializerMethodField()
 	settled_loans=serializers.SerializerMethodField()
 	active_loans=serializers.SerializerMethodField()
+	error=serializers.SerializerMethodField()
 
 
 	class Meta:
 		model = Participants
-		fields = ['id','name','part_hold_amount','part_profit_amount','settled_loans','active_loans']
+		fields = ['id','name','part_hold_amount','part_profit_amount','settled_loans','active_loans',"error"]
 
 	def get_part_hold_amount(self,obj):
 		part_hold_amount=obj.hold.all().aggregate(Sum('part_hold_amount'))['part_hold_amount__sum']
@@ -65,6 +66,16 @@ class ParticipantsListSerializer(serializers.ModelSerializer):
 	def get_active_loans(self,obj):
 		loans=obj.loan.filter(status=False).count()
 		return loans
+
+	def get_error(self,obj):
+		loans_set=obj.loan.all()
+		for loan in loans_set:
+			totla_loan_amount=loan.totla_loan_amount
+			paid_amount=loan.pyments.all().aggregate(Sum('pyment'))['pyment__sum']
+			if totla_loan_amount<paid_amount:
+				return True
+			else:
+				return False
 
 
 # --------- Hold Serializer -------------#
@@ -107,7 +118,7 @@ class LoanListSerializer(serializers.ModelSerializer):
 			if totla_loan_amount==paid_amount:
 				return "Settled"
 			elif totla_loan_amount<paid_amount:
-				return "error paid_amount > totla_loan_amount "
+				return "error paid_amount more than totla_loan_amount "
 			else:
 				return "Active"
 		else:
