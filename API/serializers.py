@@ -135,7 +135,7 @@ class LoanDetailSerializer(serializers.ModelSerializer):
 		fields = ['id','name','loans']
 
 	def get_loans(self,obj):
-		Loans=Loan.objects.filter(participant=obj.id)
+		Loans=Loan.objects.filter(participant=obj.id).order_by('-date')
 		return LoanListSerializer(Loans, many=True).data
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -146,10 +146,6 @@ class LoanSerializer(serializers.ModelSerializer):
 
 # --------- Pyments Serializer -------------#
 		
-
-
-
-
 class PymentsListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Pyments
@@ -165,5 +161,5 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 		fields = ['id','participant','loan_amount','pyments']
 
 	def get_pyments(self,obj):
-		pyments=Pyments.objects.filter(loan=obj.id)
+		pyments=Pyments.objects.filter(loan=obj.id).order_by('date')
 		return PymentsListSerializer(pyments, many=True).data
