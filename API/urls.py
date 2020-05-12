@@ -32,6 +32,7 @@ urlpatterns = [
 
     # #  --------------------  Loan urls   ---------------------#
 
+    path('activLoans/', ActivLoanView.as_view(), name='activLoans'),
     path('participants/<int:part_id>/loans/', LoanListView.as_view(), name='loans'),
     path('loan/create', LoanCreateView.as_view(), name='loan-create'),
     path('loan/<int:loan_id>/update', LoanUpdateView.as_view(), name='loan-update'),
