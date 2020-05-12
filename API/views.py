@@ -82,7 +82,7 @@ class HoldAmountDeleteView(DestroyAPIView):
 # --------- Loan views -------------#
 
 class ActivLoanView(ListAPIView):
-	queryset = Loan.objects.filter(status=True)
+	queryset = Loan.objects.filter(status=False)
 	serializer_class = LoanListSerializer
 
 class LoanListView(RetrieveAPIView):
