@@ -139,3 +139,10 @@ class PymentDeleteView(DestroyAPIView):
 	serializer_class = PymentsListSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'pyment_id'
+
+
+#  --------- cashfliw views -------------#
+
+class CashFlowListView(ListAPIView):
+	queryset = CashFlow.objects.all().order_by('-date')
+	serializer_class = CashFlowSerializer

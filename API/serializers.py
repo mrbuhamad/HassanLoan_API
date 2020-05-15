@@ -163,3 +163,13 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 	def get_pyments(self,obj):
 		pyments=Pyments.objects.filter(loan=obj.id).order_by('date')
 		return PymentsListSerializer(pyments, many=True).data
+
+
+#  --------- cashfliw Serializer -------------#
+
+class CashFlowSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CashFlow
+		fields = "__all__"
+
+

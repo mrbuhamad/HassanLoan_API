@@ -44,4 +44,10 @@ urlpatterns = [
     path('pyments/create', PymentCreateView.as_view(), name='pyment-create'),
     path('pyments/<int:pyment_id>/update', PymentUpdateView.as_view(), name='pyment-update'),
     path('pyments/<int:pyment_id>/delete', PymentDeleteView.as_view(), name='pyment-delete'),
+    
+    
+    # #  --------------------  cashFlow urls   ---------------------#
+    
+    path('cashFlow/', CashFlowListView.as_view(), name='cash-Flow'),
+
     ]
