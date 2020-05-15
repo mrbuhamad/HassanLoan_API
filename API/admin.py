@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Loan, Pyments, Participants,Hold
+from .models import Loan, Pyments, Participants,Hold,CashFlow
 
 
 
@@ -13,5 +13,6 @@ admin.site.register(Participants, PartAdmin )
 admin.site.register(Loan)
 admin.site.register(Pyments)
 admin.site.register(Hold)
+admin.site.register(CashFlow)
 
 
