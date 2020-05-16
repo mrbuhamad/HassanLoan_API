@@ -130,6 +130,6 @@ def get_hold_cashflow(instance,created, *args, **kwargs):
 		if not instance.reasoning=="throu loan":
 			if instance.part_hold_amount>0:
 				CashFlow.objects.create(amount=instance.part_hold_amount,hold=instance,date=instance.date,reasoning="capital increase")
-			elif instance.part_hold_amount>0:
+			elif instance.part_hold_amount<0:
 				CashFlow.objects.create(amount=instance.part_hold_amount,hold=instance,date=instance.date,reasoning="capital withdraw")
 
