@@ -61,10 +61,11 @@ class Pyments(models.Model):
 
 class CashFlow(models.Model):
 	amount=models.IntegerField()
+	loan=models.ForeignKey(Loan, on_delete=models.CASCADE, related_name="cashFlow",null=True)
 	pyment=models.ForeignKey(Pyments, on_delete=models.CASCADE, related_name="cashFlow",null=True)
 	hold=models.ForeignKey(Hold,on_delete=models.CASCADE, related_name="cashFlow",null=True)
 	date=models.DateField()
-	choices = (("capital increase", "capital increase"), ("capital withdraw", "capital withdraw"), ("loan pyment", "loan pyment"))
+	choices = (("capital increase", "capital increase"), ("capital withdraw", "capital withdraw"), ("loan pyment", "loan pyment"),("loan", "loan"))
 	reasoning = models.CharField(max_length=120,choices=choices)
 
 	def __str__(self):
@@ -133,3 +134,9 @@ def get_hold_cashflow(instance,created, *args, **kwargs):
 			elif instance.part_hold_amount<0:
 				CashFlow.objects.create(amount=instance.part_hold_amount,hold=instance,date=instance.date,reasoning="capital withdraw")
 
+
+#-------------- singnel to create CashFlow through loan taken  -------- #
+@receiver(post_save, sender=Pyments)
+def get_Pyments_cashflow(instance,created, *args, **kwargs):
+	if created:
+		CashFlow.objects.create(amount=-instance.pyment,pyment=instance,date=instance.date,reasoning="loan pyment")

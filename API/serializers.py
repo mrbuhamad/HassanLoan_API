@@ -169,9 +169,11 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 
 class CashFlowSerializer(serializers.ModelSerializer):
 	balance=serializers.SerializerMethodField()
+	participant=serializers.SerializerMethodField()
+
 	class Meta:
 		model = CashFlow
-		fields = ['id','amount','pyment','hold','date','reasoning','balance']
+		fields = ['id','participant','date','reasoning','amount','balance','loan','pyment','hold',]
 
 	def get_balance(self,obj):
 		same_day_pyments=CashFlow.objects.filter(date=obj.date,id__gt=obj.id)
@@ -182,4 +184,12 @@ class CashFlowSerializer(serializers.ModelSerializer):
 			balance_same_day=0
 		return balance_All-balance_same_day
 
+	def get_participant(self,obj):
+		if obj.loan is not None:
+			participant=Loan.objects.get(id=obj.loan.id).participant.name
+		elif obj.pyment is not None:
+			participant=Pyments.objects.get(id=obj.pyment.id).loan.participant.name
+		elif obj.hold is not None:
+			participant=Hold.objects.get(id=obj.hold.id).participant.name
+		return participant
 
