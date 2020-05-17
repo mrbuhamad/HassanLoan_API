@@ -168,8 +168,18 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 #  --------- cashfliw Serializer -------------#
 
 class CashFlowSerializer(serializers.ModelSerializer):
+	balance=serializers.SerializerMethodField()
 	class Meta:
 		model = CashFlow
-		fields = "__all__"
+		fields = ['id','amount','pyment','hold','date','reasoning','balance']
+
+	def get_balance(self,obj):
+		same_day_pyments=CashFlow.objects.filter(date=obj.date,id__gt=obj.id)
+		previous_pyment=CashFlow.objects.filter(date__lte=obj.date)
+		balance_same_day=same_day_pyments.aggregate(Sum('amount'))['amount__sum']
+		balance_All=previous_pyment.aggregate(Sum('amount'))['amount__sum']
+		if balance_same_day is None:
+			balance_same_day=0
+		return balance_All-balance_same_day
 
 
