@@ -165,6 +165,7 @@ class PymentsDetailSerializer(serializers.ModelSerializer):
 		return PymentsListSerializer(pyments, many=True).data
 
 
+
 #  --------- cashfliw Serializer -------------#
 
 class CashFlowSerializer(serializers.ModelSerializer):
@@ -193,3 +194,51 @@ class CashFlowSerializer(serializers.ModelSerializer):
 			participant=Hold.objects.get(id=obj.hold.id).participant.name
 		return participant
 
+
+#  --------- Summery Serializer -------------#
+
+
+class SummerySerializer(serializers.Serializer):
+	Banck_Balance=serializers.SerializerMethodField()
+	Total_Hold=serializers.SerializerMethodField()
+	Total_Profit=serializers.SerializerMethodField()
+	Active_Loans=serializers.SerializerMethodField()
+	Satteld_Loans=serializers.SerializerMethodField()
+	loan_Hold=serializers.SerializerMethodField()
+	Capital_Hold=serializers.SerializerMethodField()
+	Cash_flow=serializers.SerializerMethodField()
+
+	def get_Banck_Balance(self,obj):
+		banck_Balance=CashFlow.objects.aggregate(Sum('amount'))['amount__sum']
+		return banck_Balance
+
+	def get_Total_Hold(self,obj):
+		total_hold=Hold.objects.aggregate(Sum('part_hold_amount'))['part_hold_amount__sum']
+		return total_hold
+
+	def get_loan_Hold(self,obj):
+		loan_Hold=Hold.objects.filter(reasoning='throu loan')
+		loan_Hold=loan_Hold.aggregate(Sum('part_hold_amount'))['part_hold_amount__sum']
+		return loan_Hold
+
+	def get_Capital_Hold(self,obj):
+		capital_Hold=Hold.objects.exclude(reasoning='throu loan')
+		capital_Hold=capital_Hold.aggregate(Sum('part_hold_amount'))['part_hold_amount__sum']
+		return capital_Hold
+
+
+	def get_Total_Profit(self,obj):
+		total_Profit=Loan.objects.aggregate(Sum('profit_amount'))['profit_amount__sum']
+		return total_Profit
+
+	def get_Active_Loans(self,obj):
+		Active_Loans=Loan.objects.filter(status=False).count()
+		return Active_Loans	
+
+	def get_Satteld_Loans(self,obj):
+		Satteld_Loans=Loan.objects.filter(status=True).count()
+		return Satteld_Loans
+
+	def get_Cash_flow(self,obj):
+		cashFlow=CashFlow.objects.all().order_by('date','-id')
+		return CashFlowSerializer(cashFlow, many=True).data

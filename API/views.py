@@ -7,6 +7,8 @@ DestroyAPIView)
 from datetime import datetime, timedelta
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 #  Models
@@ -143,6 +145,7 @@ class PymentDeleteView(DestroyAPIView):
 
 #  --------- cashfliw views -------------#
 
-class CashFlowListView(ListAPIView):
-	queryset = CashFlow.objects.all().order_by('date','-id')
-	serializer_class = CashFlowSerializer
+class CashFlowListView(APIView):
+	def get(self, request):
+		serializer = SummerySerializer(self,many=False)
+		return Response(serializer.data)
