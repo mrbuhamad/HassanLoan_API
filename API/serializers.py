@@ -176,7 +176,7 @@ class CashFlowSerializer(serializers.ModelSerializer):
 		fields = ['id','participant','date','reasoning','amount','balance','loan','pyment','hold',]
 
 	def get_balance(self,obj):
-		same_day_pyments=CashFlow.objects.filter(date=obj.date,id__gt=obj.id)
+		same_day_pyments=CashFlow.objects.filter(date=obj.date,id__lt=obj.id)
 		previous_pyment=CashFlow.objects.filter(date__lte=obj.date)
 		balance_same_day=same_day_pyments.aggregate(Sum('amount'))['amount__sum']
 		balance_All=previous_pyment.aggregate(Sum('amount'))['amount__sum']

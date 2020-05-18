@@ -144,5 +144,5 @@ class PymentDeleteView(DestroyAPIView):
 #  --------- cashfliw views -------------#
 
 class CashFlowListView(ListAPIView):
-	queryset = CashFlow.objects.all().order_by('date','id')
+	queryset = CashFlow.objects.all().order_by('date','-id')
 	serializer_class = CashFlowSerializer
