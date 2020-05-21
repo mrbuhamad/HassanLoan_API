@@ -137,6 +137,6 @@ def get_hold_cashflow(instance,created, *args, **kwargs):
 
 #-------------- singnel to create CashFlow through loan taken  -------- #
 @receiver(post_save, sender=Loan)
-def get_Pyments_cashflow(instance,created, *args, **kwargs):
+def get_loan_cashflow(instance,created, *args, **kwargs):
 	if created:
 		CashFlow.objects.create(amount=-instance.loan_amount,loan=instance,date=instance.date,reasoning="loan")
