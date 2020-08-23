@@ -146,12 +146,12 @@ class PymentDeleteView(DestroyAPIView):
 #  --------- cashfliw views -------------#
 
 
-# class CashFlowListView(APIView):
-# 	def get(self, request):
-# 		serializer = SummerySerializer(self,many=False)
-# 		return Response(serializer.data)
+class CashFlowListView(APIView):
+	def get(self, request):
+		serializer = SummerySerializer(self,many=False)
+		return Response(serializer.data)
 
-class CashFlowListView(ListAPIView):
+# class CashFlowListView(ListAPIView):
 	# queryset = CashFlow.objects.exclude(loan__isnull=True,reasoning="capital increase")
-	queryset = CashFlow.objects.all()
-	serializer_class = SummerySerializer
+# 	queryset = CashFlow.objects.all()
+# 	serializer_class = SummerySerializer
