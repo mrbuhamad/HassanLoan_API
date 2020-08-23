@@ -178,9 +178,7 @@ class CashFlowSerializer(serializers.ModelSerializer):
 
 	def get_balance(self,obj):
 		same_day_pyments=CashFlow.objects.filter(date=obj.date,id__lt=obj.id)
-		same_day_pyments=same_day_pyments-CashFlow.objects.filter(reasoning="capital increase").exclude(loan__isnull=True)
 		previous_pyment=CashFlow.objects.filter(date__lte=obj.date)
-		previous_pyment=previous_pyment-CashFlow.objects.filter(reasoning="capital increase").exclude(loan__isnull=True)
 		balance_same_day=same_day_pyments.aggregate(Sum('amount'))['amount__sum']
 		balance_All=previous_pyment.aggregate(Sum('amount'))['amount__sum']
 		if balance_same_day is None:

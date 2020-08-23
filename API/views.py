@@ -144,6 +144,7 @@ class PymentDeleteView(DestroyAPIView):
 
 
 #  --------- cashfliw views -------------#
+CashFlow.objects.filter(reasoning="capital increase").exclude(loan__isnull=True)
 
 class CashFlowListView(APIView):
 	def get(self, request):
