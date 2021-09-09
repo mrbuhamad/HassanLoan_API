@@ -15,9 +15,11 @@ def run():
 
     for i in loan:
         CashFlow.objects.create(amount=-i.loan_amount,loan=i,date=i.date,reasoning="loan")
-
+       
     for i in hold:
-        if i.part_hold_amount>0:
-            CashFlow.objects.create(amount=i.part_hold_amount,hold=i,date=i.date,reasoning="capital increase")
-        elif i.part_hold_amount<0:
-            CashFlow.objects.create(amount=i.part_hold_amount,hold=i,date=i.date,reasoning="capital withdraw")
+        if not i.reasoning=="throu loan":
+            if i.part_hold_amount>0:
+                CashFlow.objects.create(amount=i.part_hold_amount,hold=i,date=i.date,reasoning="capital increase")
+            elif i.part_hold_amount<0:
+                CashFlow.objects.create(amount=i.part_hold_amount,hold=i,date=i.date,reasoning="capital withdraw")
+
